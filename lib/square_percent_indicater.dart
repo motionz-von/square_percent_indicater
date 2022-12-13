@@ -27,7 +27,8 @@ class SquarePercentIndicator extends StatelessWidget {
   final StartAngle startAngle;
 
   const SquarePercentIndicator(
-      {this.progress = 0.0,
+      {super.key,
+      this.progress = 0.0,
       this.reverse = false,
       this.borderRadius = 5,
       this.progressColor = Colors.blue,
@@ -37,7 +38,9 @@ class SquarePercentIndicator extends StatelessWidget {
       this.child,
       this.startAngle = StartAngle.topLeft,
       this.width,
-      this.height});
+      this.height})
+      : assert(child != null || width != null && height != null,
+            "child and width/height can not be null at the same time");
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,6 @@ class SquarePercentIndicator extends StatelessWidget {
       width: width,
       height: height,
       child: CustomPaint(
-        child: child ?? Container(),
         painter: RadialPainter(
             startAngle: startAngle,
             progress: progress,
@@ -57,6 +59,7 @@ class SquarePercentIndicator extends StatelessWidget {
             strokeWidth: progressWidth,
             shadowWidth: shadowWidth,
             borderRadius: borderRadius),
+        child: child ?? Container(),
       ),
     );
   }

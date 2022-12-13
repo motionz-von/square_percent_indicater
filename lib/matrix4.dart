@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 
 // Developed by Marcelo Glasberg (Aug 2019).
@@ -27,22 +28,23 @@ class Matrix4Transform {
 
   Matrix4Transform.from(Matrix4 m) : m = m.clone();
 
-  Matrix4Transform._(this.m);
+  const Matrix4Transform._(this.m);
 
   Matrix4 get matrix4 => m.clone();
 
   /// Rotates by [angleRadians] radians, clockwise.
   /// If you define an origin it will have that point as the axis of rotation.
   Matrix4Transform rotate(double? angleRadians, {Offset? origin}) {
-    if ((angleRadians == null) || (angleRadians == 0.0))
+    if ((angleRadians == null) || (angleRadians == 0.0)) {
       return this;
-    else if ((origin == null) || (origin.dx == 0.0 && origin.dy == 0.0))
+    } else if ((origin == null) || (origin.dx == 0.0 && origin.dy == 0.0)) {
       return Matrix4Transform._(m.clone()..rotateZ(angleRadians));
-    else
+    } else {
       return Matrix4Transform._(m.clone()
         ..translate(origin.dx, origin.dy)
         ..multiply(Matrix4.rotationZ(angleRadians))
         ..translate(-origin.dx, -origin.dy));
+    }
   }
 
   /// Rotates by [angleDegrees] degrees (0 to 360 one turn), clockwise.
@@ -113,17 +115,18 @@ class Matrix4Transform {
     x ??= 1;
     y ??= 1;
 
-    if (x == 1 && y == 1)
+    if (x == 1 && y == 1) {
       return this;
-    else if ((origin == null) || (origin.dx == 0.0 && origin.dy == 0.0))
+    } else if ((origin == null) || (origin.dx == 0.0 && origin.dy == 0.0)) {
       return Matrix4Transform._(//
           m.clone()..multiply(Matrix4.identity()..scale(x, y)));
-    else
+    } else {
       return Matrix4Transform._(//
           m.clone()
             ..translate(origin.dx, origin.dy)
             ..multiply(Matrix4.identity()..scale(x, y))
             ..translate(-origin.dx, -origin.dy));
+    }
   }
 
   /// Scales by [factor] horizontally. Keeps the same vertical scale.
@@ -212,18 +215,19 @@ class Matrix4Transform {
   }) {
     if (((horizontal == null) || (horizontal == 0.0)) //
         &&
-        ((vertical == null) || (vertical == 0.0)))
+        ((vertical == null) || (vertical == 0.0))) {
       return this;
-    else if ((origin == null) || (origin.dx == 0.0 && origin.dy == 0.0))
+    } else if ((origin == null) || (origin.dx == 0.0 && origin.dy == 0.0)) {
       return Matrix4Transform._(m.clone()
         ..rotateY(horizontal!)
         ..rotateX(vertical!));
-    else
+    } else {
       return Matrix4Transform._(m.clone()
         ..translate(origin.dx, origin.dy)
         ..multiply(Matrix4.rotationY(horizontal!))
         ..multiply(Matrix4.rotationX(vertical!))
         ..translate(-origin.dx, -origin.dy));
+    }
   }
 
   /// Flips (with perspective) horizontally and vertically by [distance] pixels.
